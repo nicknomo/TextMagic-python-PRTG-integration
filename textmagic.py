@@ -24,7 +24,7 @@ apikey = "Rasd123sdfsdfscszxxzorsomething"
 recipients='999999'
 
 
-#This is the backup gateway ip if you have one
+#This is the backup gateway ip
 
 backupgwip = '192.168.1.2'
 
