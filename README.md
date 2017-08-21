@@ -9,8 +9,12 @@ This is made with the purpose of
 This is a very niche oriented usage, and this code is probably not useful to most people.
 
 This was written in Python 3
+
 REQUIRES DNS PYTHON http://www.dnspython.org/
+
 REQUIRES textmagic python library https://www.textmagic.com/docs/api/python/
+
+REQUIRES httplib2 library https://pypi.python.org/pypi/httplib2  - textmagic depends on this, and will be installed if you run "pip install textmagic".
 
 I recommend WinPython if you are using windows.
 
