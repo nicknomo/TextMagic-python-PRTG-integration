@@ -13,3 +13,6 @@ REQUIRES DNS PYTHON http://www.dnspython.org/
 REQUIRES textmagic python library https://www.textmagic.com/docs/api/python/
 
 I recommend WinPython if you are using windows.
+
+
+I've included the sources for the textmagic and dns python.  You should try and download these libraries from their respective sources.
