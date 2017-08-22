@@ -10,7 +10,7 @@ This is a very niche oriented usage, and this code is probably not useful to mos
 
 This was written in PYTHON 3
 
-REQUIRES DNS PYTHON http://www.dnspython.org/ - can be installed by "pip install dnspython3"
+REQUIRES DNS PYTHON http://www.dnspython.org/ - can be installed by "pip install dnspython"
 
 REQUIRES textmagic python library https://www.textmagic.com/docs/api/python/ - The pip install did not work properly for me. You may need to download the zip, and place the textmagic folder in the same directory as the textmagic.py file.
 
