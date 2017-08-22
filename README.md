@@ -8,11 +8,11 @@ This is made with the purpose of
 
 This is a very niche oriented usage, and this code is probably not useful to most people.
 
-This was written in Python 3
+This was written in PYTHON 3
 
-REQUIRES DNS PYTHON http://www.dnspython.org/
+REQUIRES DNS PYTHON http://www.dnspython.org/ - can be installed by "pip install dnspython3"
 
-REQUIRES textmagic python library https://www.textmagic.com/docs/api/python/
+REQUIRES textmagic python library https://www.textmagic.com/docs/api/python/ - The pip install did not work properly for me. You may need to download the zip, and place the textmagic folder in the same directory as the textmagic.py file.
 
 REQUIRES httplib2 library https://pypi.python.org/pypi/httplib2  - textmagic depends on this, and will be installed if you run "pip install textmagic".
 
