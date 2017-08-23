@@ -21,10 +21,25 @@ The base textmagic.py file will handle a single gateway failure. The textmagic_S
 
 I've included the sources for the textmagic and dns python.  You should try and download these libraries from their respective sources, and you should not need these. Using "pip install" from the Winpython command line is highly recommended. I've included them in this repo in case their functionality or structure changes at a later date. 
 
-## SUPER HA VERSION - textmagic_SUPER_HA.py
+# Versions
 
-The super high availability version is more robust (but more complicated and less tested).  It offers dual gateway support, but it also alleviates potential DNS issues.  It uses its own dns lookups to try and complete the connection to textmagic.  It is designed to potentially operate if all DNS activity fails.  The SUPER-HA version attempts both ipv4 and ipv6. If you choose to use the SUPER-HA variant, simply rename it textmagic.py (so the .bat file will execute it), or change the batch file to call it by its current name. 
+As of right now, there are three versions of the file.  Each version offers differing levels of fault tolerance and high availability (HA). **You only need ONE of these files**.    
 
+1) Regular HA version - textmagic.py
+2) SUPER HA version (recommended)- textmagic_SUPER_HA.py
+3) No HA version - textmagic_No_Frills.py
+ 
+## Regular HA VERSION - textmagic.py
+
+The regular HA version has the capability of utilizing a backup gateway.  In case of primary internet failure, it will attempt to use a backup gateway ip to send the message.  This version still relies on your DNS servers to operate properly. If your DNS servers use your primary gateway, it is likely that DNS will fail.  Use the SUPER HA version if you wish to correct for this.
+
+## SUPER HA VERSION (Recommended) - textmagic_SUPER_HA.py
+
+The super high availability version is more robust.  It offers dual gateway support, but it also alleviates potential DNS issues.  It uses its own dns lookups to try and complete the connection to textmagic.  It is designed to potentially operate if **all** DNS activity fails.  The SUPER-HA version attempts both ipv4 and ipv6. If you choose to use the SUPER-HA variant, simply rename it textmagic.py (so the .bat file will execute it), or change the batch file to call it by its current name. 
+
+## The no HA version - textmagic_No_Frills.py
+
+There is no attempt to adjust for failures.  It just immediately sends the message to textmagic. In the event a primary network failure, the notification attempt will fail.  
 
 
 # Configuration
