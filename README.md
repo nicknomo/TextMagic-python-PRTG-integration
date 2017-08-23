@@ -6,7 +6,7 @@ This is made with the purpose of
 2) Using the text to speech feature (getting phone calls instead of texts)
 3) Using PRTG with windows
 
-This is a very niche oriented usage, and this code is probably not useful to most people. Nevertheless, PRTG users relying on alerts may not receive emails or texts if a gateway goes down, or a DNS server goes down.  The textmagic.py file is for use if a gateway goes down, and the textmagic_SUPER_HA.py takes into account the possibility of total dns failure.  
+This is a very niche oriented usage, and this code is probably not useful to most people. Nevertheless, PRTG users relying on alerts may not receive emails or texts if a gateway goes down, or a DNS server goes down.  The textmagic.py file will handle a single gateway failure. The textmagic_SUPER_HA.py is more robust and will handle a single gateway failure, but also takes into account the possibility of total dns failure.   
 
 #### REQUIRES PYTHON 3. This was written in PYTHON 3, and will not work with Python2 . I recommend WinPython if you are using windows. https://sourceforge.net/projects/winpython/files/WinPython_3.4/3.4.4.6/
 
@@ -29,11 +29,11 @@ The super ha version is more complicated, but it uses its own dns lookups to try
 
 ## 1) Download the Proper files
 
-#### Please download both textmagic.bat and textmagic.py (if you choose to use textmagic_SUPER_HA.py, please rename it textmagic.py). Place the textmagic.bat file in C:\Program files (x86)\PRTG Network Monitor\Notifications\EXE\ (for the 32 bit version, its C:\Program files\PRTG Network Monitor\Notifications\EXE\ ) . The textmagic.py file can go anywhere, but for security purposes it should not go where non-Administrator Users have write access.
+#### Please download both textmagiclauncher.bat and textmagic.py (if you choose to use textmagic_SUPER_HA.py, please rename it textmagic.py). Place the textmagic.bat file in C:\Program files (x86)\PRTG Network Monitor\Notifications\EXE\ (for the 32 bit version, its C:\Program files\PRTG Network Monitor\Notifications\EXE\ ) . The textmagic.py file can go anywhere, but for security purposes it should not go where non-Administrator Users have write access.
 
-## 2) Edit textmagic.bat
+## 2) Edit textmagiclauncher.bat
 
-#### The textmagic.bat file will need to be changed so that the correct python.exe and textmagic.py locations are specified. The default is:
+#### The textmagiclauncher.bat file will need to be changed so that the correct python.exe and textmagic.py locations are specified. The default is:
 
 ```
 "C:\Program Files\Python\python-3.4.4.amd64\python.exe" "C:\Program Files\Python\python-3.4.4.amd64\textmagic.py" %*
@@ -116,7 +116,7 @@ manualtextmagicipv6_2 = '2400:cb00:2048:1::6814:17ed'
 
 ## 8) Set EXE notification in PRTG
 
-#### Go to Setup -> Account Settings -> Notifications. The default notification is "Email and push notification to admin".  You can edit it, and enable EXE notification. The textmagic.bat should be visible if you've put it in the right location. I suggest changing the following default settings:
+#### Go to Setup -> Account Settings -> Notifications. The default notification is "Email and push notification to admin".  You can edit it, and enable EXE notification. The textmagiclauncher.bat should be visible if you've put it in the right location. I suggest changing the following default settings:
 ```
 Arguments:  %device %name %status %down,,,
 Timeout:    180
