@@ -40,14 +40,11 @@ backupgwip = '192.168.1.2'
 #Initialize the client object - provided by the textmagic library
 client = TextmagicRestClient(username, apikey)
 
-#we take the arguments, and remove the server name
-#this makes it easier on the text2speech engine - it gets right to the point
+
 #the PRTG output is then repeated twice
 #this allows the user to keep listening, since the text2speech can be spotty
 args = sys.argv[1:]
 arguments = ''.join(str(x)+' ' for x in args)
-breakpoint = arguments.find(']')
-arguments = arguments[breakpoint+2:]
 arguments = arguments+arguments
 
 
