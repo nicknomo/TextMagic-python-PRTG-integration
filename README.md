@@ -8,15 +8,14 @@ This is made with the purpose of
 
 This is a very niche oriented usage, and this code is probably not useful to most people. Nevertheless, PRTG users relying on alerts may not receive emails or texts if a gateway goes down, or a DNS server goes down.  The textmagic.py file is for use if a gateway goes down, and the textmagic_SUPER_HA.py takes into account the possibility of total dns failure.  
 
-NOTE: This was written in PYTHON 3, and will not work with Python2
+#### REQUIRES PYTHON 3. This was written in PYTHON 3, and will not work with Python2 . I recommend WinPython if you are using windows. https://sourceforge.net/projects/winpython/files/WinPython_3.4/3.4.4.6/
 
 #### REQUIRES DNS PYTHON http://www.dnspython.org/ - can be installed by "pip install dnspython"
 
-#### REQUIRES textmagic python library https://www.textmagic.com/docs/api/python/ - The pip install did not work properly for me. You may need to download the zip, and place the textmagic folder in the same directory as the textmagic.py file.
+#### REQUIRES textmagic python library https://www.textmagic.com/docs/api/python/ - The "pip install textmagic" did not work properly for me. You may need to download the zip, and place the textmagic folder in the same directory as the textmagic.py file.
 
-#### REQUIRES httplib2 library https://pypi.python.org/pypi/httplib2  - textmagic depends on this, and will be installed if you run "pip install textmagic".
+#### REQUIRES httplib2 library https://pypi.python.org/pypi/httplib2  - textmagic depends on this, and will be installed if you run "pip install textmagic". Otherwise, you can install it by itself by typing "pip install httplib2" .
 
-I recommend WinPython if you are using windows. https://sourceforge.net/projects/winpython/files/WinPython_3.4/3.4.4.6/
 
 I've included the sources for the textmagic and dns python.  You should try and download these libraries from their respective sources, and you should not need these. Using "pip install" from the Winpython command line is highly recommended. I've included them in this repo in case their functionality or structure changes at a later date. 
 
@@ -126,8 +125,8 @@ Timeout:    180
 #### See here for more information: https://www.paessler.com/manuals/prtg/notifications_settings  
 
 # Debugging
-#### Its recommended that you test this by manually running the batch file from a command line.  If you are missing a necessary library, or python dependency, this will be the easiest way to determine that.  I recommend you leave the API key blank (in the textmagic.py configuration)  during testing.  You will likely get an HTTP 401 error after executing, and your account balance will not be charged from testing.  
+Its recommended that you test this by manually running the batch file from a command line.  If you are missing a necessary library, or python dependency, this will be the easiest way to determine that.  I recommend you leave the API key blank (in the textmagic.py configuration)  during testing.  You will likely get an HTTP 401 error after executing, and your account balance will not be charged from testing.  
 
-#### I recommend you test and simulate interface and DNS server failures.  You will likely see failure messages during failover testing, especially regarding ipv6 if you don't have an ipv6 capable connection.  As long as you eventually see HTTP 401 errors (assuming you've removed your API key to test), the program is working as expected.  Once the API key and username are entered correctly, this program should work properly.
+I recommend you test and simulate interface and DNS server failures.  You will likely see failure messages during failover testing, especially regarding ipv6 if you don't have an ipv6 capable connection.  As long as you eventually see HTTP 401 errors (assuming you've removed your API key to test), the program is working as expected.  Once the API key and username are entered correctly, this program should work properly.
 
-#### Once You are ready to testin PRTG, put the API key into textmagic.py . You can then test the notification from PRTG in Setup->Account Settings->Notifications.  Hit the test button, and you should receive your call/text .
+Once You are ready to testin PRTG, put the API key into textmagic.py . You can then test the notification from PRTG in Setup->Account Settings->Notifications.  Hit the test button, and you should receive your call/text .
