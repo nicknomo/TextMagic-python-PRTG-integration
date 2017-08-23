@@ -20,3 +20,7 @@ I recommend WinPython if you are using windows.
 
 
 I've included the sources for the textmagic and dns python.  You should try and download these libraries from their respective sources.
+
+#SUPER HA VERSION
+
+The super ha version is more complicated, but it uses its own dns lookups to try and complete the task.  In the case of local DNS outages, this would still work.  It attempts ipv4 and ipv6. If you choose this version, simply rename it textmagic.py (so the .bat file will execute it), or change the batch file to call it by its current name .
