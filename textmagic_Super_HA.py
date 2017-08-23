@@ -62,7 +62,6 @@ dnsprovider3ipv6 = '2001:470:1f10:c6::2'
 #this allows the user to keep listening, since the text2speech can be spotty
 args = sys.argv[1:]
 arguments = ''.join(str(x)+' ' for x in args)
-#Optional if you want to remove the sitename. You could also remove it in PRTG
 arguments = arguments+arguments
 
 
