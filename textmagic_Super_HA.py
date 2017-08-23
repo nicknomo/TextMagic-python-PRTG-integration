@@ -32,7 +32,7 @@ backupgwipv6 = 'fd00:0:0:1::2'
 #This is the interface windows associates with your ipv6 backup gateway
 #This could still be your default adapter, or maybe a secondary adapter
 #When the primary attempt at your default ipv4 and ipv6 gateway fails, it tries this adapter
-#To find the correct adapter USE:  netsh int ipv4 show interfaces    
+#To find the correct adapter USE:  netsh int ipv6 show interfaces    
 # THE DEFAULT IS ALMOST CERTAINLY WRONG!!!!
 ipv6intnum = '1'
 
