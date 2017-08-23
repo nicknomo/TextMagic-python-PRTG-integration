@@ -108,7 +108,7 @@ recipients='999999'
 ```
 backupgwip = '192.168.1.2'
 ```
-#### Your ipv6 backup gateway can be entered here, however the corret interface number needs to be entered as well.  To get the interface number, enter this command from the command line:  netsh int ipv4 show interfaces  . Enter the numeric value into the ipv6intnum variable.  The default is interface 1, and is likely not to be correct. This is only available in the SUPER_HA version.
+#### Your ipv6 backup gateway can be entered here, however the corret interface number needs to be entered as well.  To get the interface number, enter this command from the command line:  netsh int ipv6 show interfaces  . Enter the numeric value into the ipv6intnum variable.  The default is interface 1, and is likely not to be correct. This is only available in the SUPER_HA version.
 ```
 backupgwipv6 = 'fd00:0:0:1::2'
 ipv6intnum = '1'
