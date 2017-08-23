@@ -16,10 +16,10 @@ username = "usernamegoeshere"
 apikey = "Rasd123sdfsdfscszxxzorsomething"
 
 #for Text2speech, the recipient has to be a member of list
-#On the textmagic Web UI contacts section to make a list and the contacts, set them manually to landline
-#Go to the Web ui's services secion, go to text to speech, and set it to enabled for landline phones.
-#Now go to the sandbox section and user GET /api/v2/lists/search . Hit sandbox, and then TRY. Your lists ids will be in there
-#Put the relevant list id into here
+#On the textmagic Web UI contacts section to make contacts and then a list. Set the contacts to "landline"
+#The easiest way to get the list ID is to go to the lists page ( https://my.textmagic.com/online/messages/lists ), 
+#and click on the appropriate list. The URL will end with the List ID. 
+#For example: https://my.textmagic.com/online/contacts/list/999999 , where the list ID would be 999999 .
 
 recipients='999999'
 
