@@ -16,6 +16,26 @@ import dns.resolver
 username = "usernamegoeshere"
 apikey = "Rasd123sdfsdfscszxxzorsomething"
 
+#for Text2speech, the recipient has to be a member of list
+#On the textmagic Web UI contacts section to make a list and the contacts, set them manually to landline
+#Go to the Web ui's services secion, go to text to speech, and set it to enabled for landline phones.
+#Now go to the sandbox section and user GET /api/v2/lists/search . Hit sandbox, and then TRY. Your lists ids will be in there
+#https://rest.textmagic.com/api/v2/doc#get--api-v2-lists-search
+#Put the relevant list id into here
+recipients='999999'
+
+
+#This is the backup gateway ip if you have one
+backupgwip = '192.168.1.2'
+backupgwipv6 = 'fd00:0:0:1::2'
+
+#This is the interface windows associates with your ipv6 backup gateway
+#This could still be your default adapter, or maybe a secondary adapter
+#When the primary attempt at your default ipv4 and ipv6 gateway fails, it tries this adapter
+#To find the correct adapter USE:  netsh int ipv4 show interfaces    
+# THE DEFAULT IS ALMOST CERTAINLY WRONG!!!!
+ipv6intnum = '1'
+
 ### If ALL dns attempts fail, this will be what is passed to the socket
 manualtextmagicipv4_1 = '104.20.24.237'
 manualtextmagicipv4_2 = '104.20.23.237'
@@ -32,23 +52,6 @@ dnsprovider2ipv6 = '2001:4860:4860::8844'
 #OpenNIC
 dnsprovider3ipv6 = '2001:470:1f10:c6::2'
 
-#for Text2speech, the recipient has to be a member of list
-#On the textmagic Web UI contacts section to make a list and the contacts, set them manually to landline
-#Go to the Web ui's services secion, go to text to speech, and set it to enabled for landline phones.
-#Now go to the sandbox section and user GET /api/v2/lists/search . Hit sandbox, and then TRY. Your lists ids will be in there
-#Put the relevant list id into here
-recipients='999999'
-
-#This is the backup gateway ip if you have one
-backupgwip = '192.168.1.2'
-backupgwipv6 = 'fd00:0:0:1::2'
-
-#This is the interface windows associates with your ipv6 backup gateway
-#This could still be your default adapter, or maybe a secondary adapter
-#When the primary attempt at your default ipv4 and ipv6 gateway fails, it tries this adapter
-#To find the correct adapter USE:  netsh int ipv4 show interfaces    
-# THE DEFAULT IS ALMOST CERTAINLY WRONG!!!!
-ipv6intnum = '1'
 
 ##### END OF USER CONFIGURABLE SECTION #####
 ##### END USER CONFIGURABLE SECTION #####
