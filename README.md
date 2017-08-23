@@ -3,8 +3,8 @@ PRTG Network Monitor runs this Windows script in order to send a notification.  
 
 This is made with the purpose of 
 1) using a primary and backup gateway to ensure your textmagic message gets out
-2) Using the text to speech feature (getting phone calls instead of texts)
-3) Using PRTG with windows
+2) (Optionally) Using the text to speech feature (getting phone calls instead of texts)
+
 
 This is a very niche oriented usage, and this code is probably not useful to most people. Nevertheless, PRTG users relying on alerts may not receive emails or texts if a gateway goes down, or a DNS server goes down.  The textmagic.py file will handle a single gateway failure. The textmagic_SUPER_HA.py is more robust and will handle a single gateway failure, but also takes into account the possibility of total dns failure.   
 
@@ -19,7 +19,7 @@ This is a very niche oriented usage, and this code is probably not useful to mos
 
 I've included the sources for the textmagic and dns python.  You should try and download these libraries from their respective sources, and you should not need these. Using "pip install" from the Winpython command line is highly recommended. I've included them in this repo in case their functionality or structure changes at a later date. 
 
-## SUPER HA VERSION - textmagic_SUPER_HA.y
+## SUPER HA VERSION - textmagic_SUPER_HA.py
 
 The super high availability version is more complicated (and less tested), but it uses its own dns lookups to try and complete the task.  In the case of local DNS outages, this would still work.  It attempts ipv4 and ipv6. If you choose this version, simply rename it textmagic.py (so the .bat file will execute it), or change the batch file to call it by its current name. 
 
@@ -70,11 +70,15 @@ username = "usernamegoeshere"
 apikey = "Rasd123sdfsdfscszxxzorsomething"
 ```
 
-#### For Text2speech, the recipient has to be a member of list. On the textmagic Web UI contacts section to make a list and the contacts, set them manually to landline. Go to the Web ui's services secion, go to text to speech, and set it to enabled for landline phones.
+#### For Text2speech, the recipient has to be a member of list. This program only suppors sending to lists. The following directions will walk you through how to properly configure this.
 
-#### Now go to the sandbox section and user GET /api/v2/lists/search . The URL is https://rest.textmagic.com/api/v2/doc#get--api-v2-lists-search . Hit sandbox, and then hit the TRY button. Your lists ids will be in there. NOTE: the username and api token need to be entered at the very top of the sandbox page.
+#### On the textmagic Web UI contacts section to make contacts ( https://my.textmagic.com/online/contacts/all ) and then put the contacts in a corresponding list ( https://my.textmagic.com/online/messages/lists ) . Go into the appropriate contact, and manually set them as Phone Type: landline. Go to the Web ui's services secion, go to text to speech ( https://my.textmagic.com/online/account/text-to-speech ), and set it to "enabled" for landline phones.
 
-#### Enter the relevant list id into here
+#### The easiest way to get the list ID is to go to the lists page ( https://my.textmagic.com/online/messages/lists ), and click on the appropriate list.  The URL will end with the List ID. For example: https://my.textmagic.com/online/contacts/list/999999 , where the list ID would be 999999 . 
+
+#### Another way is through the Sandbox. Enter the sandbox feature and user GET /api/v2/lists/search ( https://rest.textmagic.com/api/v2/doc#get--api-v2-lists-search ). Hit sandbox, and then hit the TRY button. NOTE: the username and api token need to be entered at the very top of the sandbox page. Your lists ids will be enumerated, however please note that there are 5 default lists, along with the new list you have created.  
+
+#### Enter the relevant list id into textmagic.py here
 ```
 recipients='999999'
 ```
@@ -95,7 +99,7 @@ ipv6intnum = '1'
 
 ## 6) (OPTIONAL) Choose backup DNS Servers (Internet based only!) - only available in the SUPER_HA version
 
-#### On the first attempt, your system's default nameservers are used. These variables are for BACKUP DNS ATTEMPTS, and INTERNET CONNECTIVITY CHECKS. Please do not put your system's default DNS servers in here. Its best to use public and highly available dns servers. DO NOT USE INTERNAL SERVERS! THIS WILL DEGRADETHE USEFULNESS OF THIS PROGRAM! These defaults are very good choices, but if you use any of these as your system's primary or secondary DNS server, you may want to change them.
+#### On the first attempt, your system's default nameservers are used. The variables listed below are for BACKUP DNS ATTEMPTS, and INTERNET CONNECTIVITY CHECKS. Please do not put your system's default DNS servers in here. Its best to use public and highly available dns servers. DO NOT USE INTERNAL SERVERS! THIS WILL DEGRADETHE USEFULNESS OF THIS PROGRAM! These defaults are very good choices, but if you use any of these as your system's primary or secondary DNS server, you may want to change them.
 ```
 dnsprovider1 = '8.8.8.8'
 dnsprovider2 = '8.8.4.4'
