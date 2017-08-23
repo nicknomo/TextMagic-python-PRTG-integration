@@ -1,5 +1,5 @@
-# TextMagic-python-PRTG-integration
-PRTG runs this Windows script in order to send a notification
+# TextMagic PRTG Phone Notification and automatic voice text alerts.
+PRTG Network Monitor runs this Windows script in order to send a notification.  Using the Textmagic texting service, you can leverage automatic notifications and text to speech.
 
 This is made with the purpose of 
 1) using a primary and backup gateway to ensure your textmagic message gets out
@@ -19,9 +19,9 @@ This is a very niche oriented usage, and this code is probably not useful to mos
 
 I've included the sources for the textmagic and dns python.  You should try and download these libraries from their respective sources, and you should not need these. Using "pip install" from the Winpython command line is highly recommended. I've included them in this repo in case their functionality or structure changes at a later date. 
 
-## SUPER HA VERSION
+## SUPER HA VERSION - textmagic_SUPER_HA.y
 
-The super ha version is more complicated, but it uses its own dns lookups to try and complete the task.  In the case of local DNS outages, this would still work.  It attempts ipv4 and ipv6. If you choose this version, simply rename it textmagic.py (so the .bat file will execute it), or change the batch file to call it by its current name. 
+The super high availability version is more complicated (and less tested), but it uses its own dns lookups to try and complete the task.  In the case of local DNS outages, this would still work.  It attempts ipv4 and ipv6. If you choose this version, simply rename it textmagic.py (so the .bat file will execute it), or change the batch file to call it by its current name. 
 
 
 
