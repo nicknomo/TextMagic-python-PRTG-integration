@@ -63,8 +63,6 @@ dnsprovider3ipv6 = '2001:470:1f10:c6::2'
 args = sys.argv[1:]
 arguments = ''.join(str(x)+' ' for x in args)
 #Optional if you want to remove the sitename. You could also remove it in PRTG
-#breakpoint = arguments.find(']')
-#arguments = arguments[breakpoint+2:]
 arguments = arguments+arguments
 
 
