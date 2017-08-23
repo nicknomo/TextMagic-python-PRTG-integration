@@ -267,6 +267,10 @@ def send_message_alt_route():
 	cleardnsroutes()
 	return messagesent
 
+
+### BEGIN OF MAIN CODE ###
+### BEGIN OF MAIN CODE ###
+
 #Here we replace the socket function and initialize the textmagic client
 from textmagic.rest import TextmagicRestClient
 import textmagic.rest as tm
@@ -298,9 +302,8 @@ if (not up):
 	#checks to see if we have internet out the backup connection
 	adddnsroutes()
 	up=checkinternet()
-	cleardnsroutes()
-	
 	#clean up the ping test routes
+	cleardnsroutes()
 	
 	
 	if (up):
