@@ -137,11 +137,14 @@ manualtextmagicipv6_2 = '2400:cb00:2048:1::6814:17ed'
 
 ## 8) Set EXE notification in PRTG
 
-#### Go to Setup -> Account Settings -> Notifications. The default notification is "Email and push notification to admin".  You can edit it, and enable EXE notification. The textmagiclauncher.bat should be visible if you've put it in the right location. I suggest changing the following default settings:
+#### Go to Setup -> Account Settings -> Notifications. The default notification is "Email and push notification to admin".  You can edit it, and enable EXE notification. The textmagiclauncher.bat should be visible if you've put it in the right location. If you have one site, I suggest changing the following default settings:
 ```
 Arguments:  %device %name %status %down,,,
 Timeout:    180
 ```
+#### The timeout should be reasonably high, as we have to account for multiple dns failures (which take time to fail). 
+
+#### The arguments are what PRTG will pass, and should be as short as possible to avoid higher than necessary charges.
 
 #### See here for more information: https://www.paessler.com/manuals/prtg/notifications_settings  
 
