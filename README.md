@@ -95,7 +95,7 @@ ipv6intnum = '1'
 
 ## 6) (OPTIONAL) Choose backup DNS Servers (Internet based only!) - only available in the SUPER_HA version
 
-#### On the first attempt, your system's default nameservers are used. These variables are for BACKUP DNS ATTEMPTS, and INTERNET CONNECTIVITY CHECKS. Please do not put your system's default DNS servers in here. Its best to use public and highly available dns servers. DO NOT USE INTERNAL SERVERS These defaults are very good choices, but if you use any of these by default you may want to change them.
+#### On the first attempt, your system's default nameservers are used. These variables are for BACKUP DNS ATTEMPTS, and INTERNET CONNECTIVITY CHECKS. Please do not put your system's default DNS servers in here. Its best to use public and highly available dns servers. DO NOT USE INTERNAL SERVERS! THIS WILL DEGRADETHE USEFULNESS OF THIS PROGRAM! These defaults are very good choices, but if you use any of these as your system's primary or secondary DNS server, you may want to change them.
 ```
 dnsprovider1 = '8.8.8.8'
 dnsprovider2 = '8.8.4.4'
