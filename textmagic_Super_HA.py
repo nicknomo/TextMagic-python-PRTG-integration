@@ -12,7 +12,7 @@ import dns.resolver
 #### ALL VARIABLES MUST BE CHANGE! ####
 ##### USER CONFIGURABLE SECTION #####
 
- 
+#your username and API key are found on the textmagic site 
 username = "usernamegoeshere"
 apikey = "Rasd123sdfsdfscszxxzorsomething"
 
