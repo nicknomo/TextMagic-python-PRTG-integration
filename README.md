@@ -6,7 +6,9 @@ This is made with the purpose of
 2) (Optionally) Using the text to speech feature (getting phone calls instead of texts)
 
 
-This is a very niche oriented usage, and this code is probably not useful to most people. Nevertheless, PRTG users relying on alerts may not receive emails or texts if a gateway goes down, or a DNS server goes down.  The textmagic.py file will handle a single gateway failure. The textmagic_SUPER_HA.py is more robust and will handle a single gateway failure, but also takes into account the possibility of total dns failure.   
+PRTG users rely on alerts. Under normal circumstance they may not receive PRTG's emails or texts if a gateway goes down, or if a DNS server goes down.  The purpose of this project is to alleviate these issues.
+
+The base textmagic.py file will handle a single gateway failure. The textmagic_SUPER_HA.py is a more robust implementation and will handle a single gateway failure, but also takes into account the possibility of total dns failure.   
 
 #### REQUIRES PYTHON 3. This was written in PYTHON 3, and will not work with Python2 . I recommend WinPython if you are using windows. https://sourceforge.net/projects/winpython/files/WinPython_3.4/3.4.4.6/
 
@@ -21,7 +23,7 @@ I've included the sources for the textmagic and dns python.  You should try and 
 
 ## SUPER HA VERSION - textmagic_SUPER_HA.py
 
-The super high availability version is more complicated (and less tested), but it uses its own dns lookups to try and complete the task.  In the case of local DNS outages, this would still work.  It attempts ipv4 and ipv6. If you choose this version, simply rename it textmagic.py (so the .bat file will execute it), or change the batch file to call it by its current name. 
+The super high availability version is more robust (but more complicated and less tested).  It offers dual gateway support, but it also alleviates potential DNS issues.  It uses its own dns lookups to try and complete the connection to textmagic.  It is designed to potentially operate if all DNS activity fails.  The SUPER-HA version attempts both ipv4 and ipv6. If you choose to use the SUPER-HA variant, simply rename it textmagic.py (so the .bat file will execute it), or change the batch file to call it by its current name. 
 
 
 
@@ -49,7 +51,7 @@ The super high availability version is more complicated (and less tested), but i
 
 ## 3) Install Python dependencies
 
-#### It is recommended that you run the following commands:
+#### If you are using WinPython, open "WinPython Command Prompt.exe" found in the WinPython installation folder .It is recommended that you run the following commands in this python command prompt, or whatever you use to manage your python environment:
 
 ```
 pip install dnspython
