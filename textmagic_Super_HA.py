@@ -52,16 +52,29 @@ dnsprovider2ipv6 = '2001:4860:4860::8844'
 #OpenNIC
 dnsprovider3ipv6 = '2001:470:1f10:c6::2'
 
+#Enable ipv6 usage
+ipv6enabled = True
+
 
 ##### END OF USER CONFIGURABLE SECTION #####
 ##### END USER CONFIGURABLE SECTION #####
+dnsproviderlist =[]
+dnsproviderlist.append(dnsprovider1)
+dnsproviderlist.append(dnsprovider2)
+dnsproviderlist.append(dnsprovider3)
+dnsproviderlist.append(dnsprovider1ipv6)
+dnsproviderlist.append(dnsprovider2ipv6)
+dnsproviderlist.append(dnsprovider3ipv6)
 
-
-
-#the PRTG output is processed then repeated
+#we take the arguments, and remove the server name
+#this makes it easier on the text2speech engine - it gets right to the point
+#the PRTG output is then repeated and repeated
 #this allows the user to keep listening, since the text2speech can be spotty
 args = sys.argv[1:]
 arguments = ''.join(str(x)+' ' for x in args)
+#Optional if you want to remove the sitename. You could also remove it in PRTG
+#breakpoint = arguments.find(']')
+#arguments = arguments[breakpoint+2:]
 arguments = arguments+arguments
 
 
@@ -100,8 +113,8 @@ def rundnsquery(dnsrequest,host):
 def getdnsip(host):
 	
 	dnsrequest = dns.resolver.Resolver()
-	dnsrequest.timeout = 3
-	dnsrequest.lifetime = 6
+	dnsrequest.timeout = 4
+	dnsrequest.lifetime = 8
 	dnslist = []	
 	
 	#first we try with the default windows dns settings
@@ -117,29 +130,29 @@ def getdnsip(host):
 	dnslist = rundnsquery(dnsrequest,host)
 	if (dnslist): return dnslist
 	
+	
 	dnsrequest.nameservers = [dnsprovider3]
 	dnslist = rundnsquery(dnsrequest,host)
 	if (dnslist): return dnslist
 
-	#now ipv6 providers
-	dnsrequest.nameservers = [dnsprovider1ipv6]
-	dnslist = rundnsquery(dnsrequest,host)
-	if (dnslist): return dnslist	
+	if (not ipv6enabled):
+		#now ipv6 providers
+		dnsrequest.nameservers = [dnsprovider1ipv6]
+		dnslist = rundnsquery(dnsrequest,host)
+		if (dnslist): return dnslist	
 
-	dnsrequest.nameservers = [dnsprovider2ipv6]
-	dnslist = rundnsquery(dnsrequest,host)
-	if (dnslist): return dnslist
+		dnsrequest.nameservers = [dnsprovider2ipv6]
+		dnslist = rundnsquery(dnsrequest,host)
+		if (dnslist): return dnslist
 
-	dnsrequest.nameservers = [dnsprovider3ipv6]
-	dnslist = rundnsquery(dnsrequest,host)
-
+		dnsrequest.nameservers = [dnsprovider3ipv6]
+		dnslist = rundnsquery(dnsrequest,host)
+		if (dnslist): return dnslist
 	
-	if (dnslist): return dnslist
-
-	else:
-		dnslist = ( (2,1,0, '', (manualtextmagicipv4_1,443)), (2,1,0, '', (manualtextmagicipv4_2,443)), (23,1,0, '', (manualtextmagicipv6_1, 443, 0, 0)), (23,1,0, '', (manualtextmagicipv6_2, 443, 0, 0)) )
-		print("Falling back to final list")
-		return dnslist
+	
+	dnslist = ( (2,1,0, '', (manualtextmagicipv4_1,443)), (2,1,0, '', (manualtextmagicipv4_2,443)), (23,1,0, '', (manualtextmagicipv6_1, 443, 0, 0)), (23,1,0, '', (manualtextmagicipv6_2, 443, 0, 0)) )
+	print("Falling back to final list")
+	return dnslist
 
 
 
@@ -169,29 +182,89 @@ def my_getaddrinfo(host, port, family=0, type=0, proto=0, flags=0):
 	#print(_socket.getaddrinfo(host, port, family, type, proto, flags))
 	return addrlist
 
+
+def isipv6(ip):
+	if ":" in ip:
+		return True
+	else:
+		return False
+
+def isbadtoroute(ip):
+	if (isipv6(ip)):
+		if (ip=='::1'):
+			return True
+		block = ip.split(':')
+		if (block[0][:2]=='fe'):
+			return True
+		if (block[0][:2]=='fd'):
+			return True
+		if (block[0][:2]=='fc'):
+			return True
+		if (block[0][:2]=='ff'):
+			return True
+		return False
+		
+	octet = ip.split(".")
+	
+	if (octet[0]=='127'):
+		return True
+	if (octet[0]=='10'):
+		return True
+	if (int(octet[0])>=239):
+		return True
+	if (octet[0]=='172'):
+		if ( (int(octet[1])>=16) and (int(octect[1])<=31) ):
+			return True
+	if (octet[0]=='192'):
+		if (octet[1]=='168'):
+			return True
+	
+	return False
+
+
+
+def deleteroute(ip):
+	if (isbadtoroute(ip)):
+		return
+		
+	if (isipv6(ip)==True):
+		if (ipv6enabled):
+			print("Deleting route: " + ip)
+			os.system('route delete ' + ip + '/128')
+	else:
+		print("Deleting route: " + ip)
+		os.system('route delete ' + ip)
+		
+def addroute(ip):
+	if (isbadtoroute(ip)):
+		return
+		
+	if (isipv6(ip)==True):
+		if (ipv6enabled):
+			print("ADDING ROUTE: " + ip)
+			os.system('netsh interface ipv6 add route ' + ip + '/128 interface=\"' + ipv6intnum + '\" ' + backupgwipv6 )
+	else:
+		print("ADDING ROUTE: " + ip)
+		os.system('route add ' + ip + ' ' + backupgwip + ' metric 5')
+		
+	
+
 ###Clears all routes that were added
 def cleardnsroutes():
-	os.system('route delete ' + dnsprovider1)
-	os.system('route delete ' + dnsprovider2)
-	os.system('route delete ' + dnsprovider3)
-	os.system('route delete ' + dnsprovider1ipv6 + '/128')
-	os.system('route delete ' + dnsprovider2ipv6 + '/128')
-	os.system('route delete ' + dnsprovider3ipv6 + '/128')	
-
+	for dnsprovider in dnsproviderlist:
+		deleteroute(dnsprovider)
+		
+		
 ###Temporarily adds routes to dns providers
 def adddnsroutes():
-	os.system('route add ' + dnsprovider1 + ' ' + backupgwip + ' metric 5')
-	os.system('route add ' + dnsprovider2 + ' ' + backupgwip + ' metric 5')
-	os.system('route add ' + dnsprovider3 + ' ' + backupgwip + ' metric 5')
-	#This probably won't work - check your interface
-	os.system('netsh interface ipv6 add route ' + dnsprovider1ipv6 + '/128 interface=\"' + ipv6intnum + '\" ' + backupgwipv6 )
-	os.system('netsh interface ipv6 add route ' + dnsprovider2ipv6 + '/128 interface=\"' + ipv6intnum + '\" ' + backupgwipv6 )
-	os.system('netsh interface ipv6 add route ' + dnsprovider3ipv6 + '/128 interface=\"' + ipv6intnum + '\" ' + backupgwipv6 )
+	for dnsprovider in dnsproviderlist:
+		addroute(dnsprovider)
+
+
 
 ###Checks for internet access by pinging a lot of different places
 ###It only requires one success
 def checkinternet():
-	up=False
 
 	hostname = dnsprovider1
 	response = os.system("ping -n 1 " + hostname)
@@ -208,6 +281,9 @@ def checkinternet():
 	if response == 0:
 		return True
 
+	if (not ipv6enabled):
+		return False
+
 	hostname = dnsprovider1ipv6
 	response = os.system("ping -n 1 " + hostname)
 	if response == 0:
@@ -223,7 +299,7 @@ def checkinternet():
 	if response == 0:
 		return True		
 	
-	return up
+	return False
 
 ### This attempts to send the text out of the alternate route	
 def send_message_alt_route():
@@ -242,9 +318,10 @@ def send_message_alt_route():
 		routetype = rdata[0]
 		routeip = rdata[4][0]
 		if (routetype==2):
-			os.system('route add ' + routeip + ' ' + backupgwip + ' metric 5')
+			addroute(routeip)
 		else:
-			os.system('netsh interface ipv6 add route ' + routeip + '/128 interface=\"' + ipv6intnum + '\" ' + backupgwipv6 )
+			if (ipv6enabled):
+				addroute(routeip)
 			
 		
 	#We try to send the message		
@@ -260,16 +337,13 @@ def send_message_alt_route():
 		routetype = rdata[0]
 		routeip = rdata[4][0]
 		if (routetype==2):
-			os.system('route delete ' + routeip )
+			deleteroute(routeip)
 		else:
-			os.system('route delete ' + routeip + '/128')
+			if (ipv6enabled):
+				deleteroute(routeip)
 				
 	cleardnsroutes()
 	return messagesent
-
-
-### BEGIN OF MAIN CODE ###
-### BEGIN OF MAIN CODE ###
 
 #Here we replace the socket function and initialize the textmagic client
 from textmagic.rest import TextmagicRestClient
@@ -302,8 +376,9 @@ if (not up):
 	#checks to see if we have internet out the backup connection
 	adddnsroutes()
 	up=checkinternet()
-	#clean up the ping test routes
 	cleardnsroutes()
+	
+	#clean up the ping test routes
 	
 	
 	if (up):
@@ -328,4 +403,6 @@ if (not up):
 	
 	
 	
+
+
 
