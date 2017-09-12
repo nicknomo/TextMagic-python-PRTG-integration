@@ -29,9 +29,9 @@ As of right now, there are three versions of the file.  Each version offers diff
 2) SUPER HA version (recommended)- textmagic_SUPER_HA.py
 3) No HA version - textmagic_No_Frills.py
  
-## Regular HA VERSION - textmagic.py
+## Regular HA VERSION - textmagic.py (Development Ended)
 
-The regular HA version has the capability of utilizing a backup gateway.  In case of primary internet failure, it will attempt to use a backup gateway ip to send the message.  This version still relies on your DNS servers to operate properly. If your DNS servers use your primary gateway, it is likely that DNS will fail.  Use the SUPER HA version if you wish to correct for this.
+This is now replaced with the "SUPER HA version".  
 
 ## SUPER HA VERSION (Recommended) - textmagic_SUPER_HA.py
 
