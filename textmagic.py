@@ -37,10 +37,10 @@ backupgwipv6 = 'fd00:0:0:1::2'
 ipv6intnum = '1'
 
 ### If ALL dns attempts fail, this will be what is passed to the socket
-manualtextmagicipv4_1 = '104.20.24.237'
-manualtextmagicipv4_2 = '104.20.23.237'
-manualtextmagicipv6_1 = '2400:cb00:2048:1::6814:18ed'
-manualtextmagicipv6_2 = '2400:cb00:2048:1::6814:17ed'
+manualtextmagicipv4_1 = '104.20.220.36'
+manualtextmagicipv4_2 = '104.20.221.36'
+manualtextmagicipv6_1 = '2606:4700:10::6814:dd24'
+manualtextmagicipv6_2 = '2606:4700:10::6814:dc24'
 
 ### These are BACKUP DNS providers in case your main dns provider fails
 ### It also is what the system will ping to attempt to check for internet connectivity
@@ -52,8 +52,8 @@ dnsprovider2ipv6 = '2001:4860:4860::8844'
 #OpenNIC
 dnsprovider3ipv6 = '2001:470:1f10:c6::2'
 
-#Enable ipv6 usage
-ipv6enabled = True
+#Enable ipv6 lookups (you can still use ipv6 dns servers)
+ipv6enabled = False
 
 
 ##### END OF USER CONFIGURABLE SECTION #####
@@ -253,6 +253,17 @@ def addroute(ip):
 def cleardnsroutes():
 	for dnsprovider in dnsproviderlist:
 		deleteroute(dnsprovider)
+	#Also clear manual textmagic routes
+
+def clearmanualroutes(dnslist):
+	for rdata in dnslist:
+		routetype = rdata[0]
+		routeip = rdata[4][0]
+		if (routetype==2):
+			deleteroute(routeip)
+		else:
+			if (ipv6enabled):
+				deleteroute(routeip)
 		
 		
 ###Temporarily adds routes to dns providers
@@ -333,15 +344,7 @@ def send_message_alt_route():
 		#We failed, so return a failed value
 		messagesent = False
 				
-	for rdata in dnslist:
-		routetype = rdata[0]
-		routeip = rdata[4][0]
-		if (routetype==2):
-			deleteroute(routeip)
-		else:
-			if (ipv6enabled):
-				deleteroute(routeip)
-				
+	clearmanualroutes(dnslist)				
 	cleardnsroutes()
 	return messagesent
 
@@ -360,6 +363,7 @@ cleardnsroutes()
 #Here we start testing for Internet access.  Only one success is needed
 up=checkinternet()
 
+print("Checked internet: ",up,"  \n")
 
 # if we have internet access, simply send it
 if (up):
@@ -369,6 +373,7 @@ if (up):
 		print(e)
 		#Well, that didn't work.  Better try plan B
 		up = False
+		print("exception caused")
 	
 #if not, we test the backup gateway
 if (not up):
@@ -403,6 +408,4 @@ if (not up):
 	
 	
 	
-
-
 
