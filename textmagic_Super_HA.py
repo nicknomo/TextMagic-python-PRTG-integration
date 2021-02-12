@@ -213,7 +213,7 @@ def isbadtoroute(ip):
 	if (int(octet[0])>=239):
 		return True
 	if (octet[0]=='172'):
-		if ( (int(octet[1])>=16) and (int(octect[1])<=31) ):
+		if ( (int(octet[1])>=16) and (int(octet[1])<=31) ):
 			return True
 	if (octet[0]=='192'):
 		if (octet[1]=='168'):
